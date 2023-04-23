@@ -176,7 +176,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="E:\Netbeans Project\ProjekRental\icon\plus-circle.png"/>
+              <Image iconType="2" name="E:\Netbeans Project\ProjekRental\src\main\java\image\plus-circle.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="NEW"/>
             <Property name="borderPainted" type="boolean" value="false"/>
@@ -202,7 +202,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="E:\Netbeans Project\ProjekRental\icon\users.png"/>
+              <Image iconType="2" name="E:\Netbeans Project\ProjekRental\src\main\java\image\users.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="CLIENT"/>
             <Property name="borderPainted" type="boolean" value="false"/>

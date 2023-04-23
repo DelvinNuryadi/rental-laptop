@@ -358,7 +358,7 @@ public class mainForm extends javax.swing.JFrame {
         btnNew.setBackground(new java.awt.Color(107, 125, 253));
         btnNew.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNew.setForeground(new java.awt.Color(255, 255, 255));
-        btnNew.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\plus-circle.png")); // NOI18N
+        btnNew.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\plus-circle.png")); // NOI18N
         btnNew.setText("NEW");
         btnNew.setBorderPainted(false);
         btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -373,7 +373,7 @@ public class mainForm extends javax.swing.JFrame {
         btnClient.setBackground(new java.awt.Color(51, 58, 72));
         btnClient.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClient.setForeground(new java.awt.Color(255, 255, 255));
-        btnClient.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\users.png")); // NOI18N
+        btnClient.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\users.png")); // NOI18N
         btnClient.setText("CLIENT");
         btnClient.setBorderPainted(false);
         btnClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
