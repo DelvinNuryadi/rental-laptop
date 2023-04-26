@@ -42,7 +42,6 @@ public class mainForm extends javax.swing.JFrame {
         autoKodeOwner();
         autoKodeLaptop();
         autoKodeClient();
-        
         getListLaptop();
         
     }
