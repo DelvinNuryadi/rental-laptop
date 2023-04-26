@@ -1228,13 +1228,10 @@
                                                   <Group type="102" attributes="0">
                                                       <Group type="103" groupAlignment="0" attributes="0">
                                                           <Component id="jScrollPane13" min="-2" max="-2" attributes="0"/>
-                                                          <Group type="102" alignment="0" attributes="0">
-                                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                                  <Component id="lblTahun" alignment="0" max="32767" attributes="0"/>
-                                                                  <Component id="lblModel" alignment="0" max="32767" attributes="0"/>
-                                                                  <Component id="lblMerk" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
-                                                              </Group>
-                                                              <EmptySpace min="41" pref="41" max="-2" attributes="0"/>
+                                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                                              <Component id="lblTahun" alignment="0" max="32767" attributes="0"/>
+                                                              <Component id="lblModel" alignment="0" max="32767" attributes="0"/>
+                                                              <Component id="lblMerk" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
                                                       <EmptySpace max="-2" attributes="0"/>
@@ -1401,10 +1398,12 @@
                                           <Component id="dateKembali" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jLabel37" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnCalc" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="lblJumlahHari" alignment="1" min="-2" pref="21" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jLabel37" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="btnCalc" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -2072,19 +2071,14 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="txtDataTeleponOwner" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
-                                                  <Component id="txtDataNamaOwner" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="btnDataOwnerUpdate" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="btnDataOwnerDelete" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Component id="jScrollPane7" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="12" max="32767" attributes="0"/>
+                                          <Component id="txtDataTeleponOwner" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
+                                          <Component id="txtDataNamaOwner" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="btnDataOwnerUpdate" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="btnDataOwnerDelete" min="-2" max="-2" attributes="0"/>
                                           </Group>
+                                          <Component id="jScrollPane7" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" attributes="0">
                                               <Component id="txtDataIdOwner" min="-2" pref="210" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -2139,7 +2133,7 @@
                                   <Component id="btnDataOwnerUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnDataOwnerDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="13" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jTextField13" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
