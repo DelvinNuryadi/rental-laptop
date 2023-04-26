@@ -38,6 +38,7 @@ public class mainForm extends javax.swing.JFrame {
         getDataOwner();
         getDataLaptop();
         getDataClient();
+        getDataOrder();
         autoKodeOwner();
         autoKodeLaptop();
         autoKodeClient();
@@ -78,6 +79,43 @@ public class mainForm extends javax.swing.JFrame {
         }
     }
     //load data owner
+    
+    //load data order
+    private void getDataOrder(){
+        try {
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("NO");
+            model.addColumn("ID Order");
+            model.addColumn("ID Laptop");
+            model.addColumn("ID Client");
+            model.addColumn("Tanggal ambil");
+            model.addColumn("Tanggal kembali");
+            model.addColumn("Total bayar");
+         
+            int no = 1;
+            
+            con = Koneksi.getKoneksi();
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT * FROM order");
+            
+            while(rs.next()){
+                Object[] obj = new Object[7];
+                obj[0] = no++;
+                obj[1] = rs.getString("id_order");
+                obj[2] = rs.getString("id_laptop");
+                obj[3] = rs.getString("id_client");
+                obj[4] = rs.getString("tanggal_ambil");
+                obj[5] = rs.getString("tanggal_kembali");
+                obj[6] = rs.getString("total_bayar");
+               
+                model.addRow(obj);
+                tblOrder.setModel(model);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    //load data order
     
     //load data laptop
     private void getDataLaptop(){
@@ -583,7 +621,7 @@ public class mainForm extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jLabel62 = new javax.swing.JLabel();
         jScrollPane12 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblOrder = new javax.swing.JTable();
         jTextField26 = new javax.swing.JTextField();
         jLabel66 = new javax.swing.JLabel();
 
@@ -1799,10 +1837,8 @@ public class mainForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDataOwnerDelete))
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pn_dataOwnerLayout.createSequentialGroup()
-                                .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(623, 623, 623))
+                            .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataOwnerLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2178,18 +2214,18 @@ public class mainForm extends javax.swing.JFrame {
         jLabel62.setForeground(new java.awt.Color(255, 255, 255));
         jLabel62.setText("DATA TRANSAKSI");
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "No", "ID Order", "ID Laptop", "ID Client", "Tanggal ambil", "Tanggal kembali", "Total Bayar"
             }
         ));
-        jScrollPane12.setViewportView(jTable4);
+        jScrollPane12.setViewportView(tblOrder);
 
         jLabel66.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\magnifying-glass.png")); // NOI18N
 
@@ -2889,7 +2925,6 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextArea jTextArea6;
     private javax.swing.JTextArea jTextArea7;
     private javax.swing.JTextField jTextField13;
@@ -2944,6 +2979,7 @@ public class mainForm extends javax.swing.JFrame {
     private com.toedter.calendar.JYearChooser spNewTahun;
     private javax.swing.JTable tblClient;
     private javax.swing.JTable tblLaptop;
+    private javax.swing.JTable tblOrder;
     private javax.swing.JTable tblOwner;
     private javax.swing.JTextArea txaNewAlamatOwner;
     private javax.swing.JTextArea txtAddAlamatClient;
