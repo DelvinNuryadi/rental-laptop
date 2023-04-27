@@ -11,11 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -27,7 +29,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class mainForm extends javax.swing.JFrame {
     private Connection con;
+    private Connection con1;
+    private Connection con2;
     private PreparedStatement ps;
+    private PreparedStatement ps1;
+    private PreparedStatement ps2;
     private Statement st;
     private ResultSet rs;
 
@@ -40,10 +46,12 @@ public class mainForm extends javax.swing.JFrame {
         getDataOwner();
         getDataLaptop();
         getDataClient();
-        getDataOrder();
+        getDataInvoice();
         autoKodeOwner();
         autoKodeLaptop();
         autoKodeClient();
+        autoKodeInvoice();
+        
         getListLaptop();
         
     }
@@ -82,7 +90,7 @@ public class mainForm extends javax.swing.JFrame {
     //load data owner
     
     //load data order
-    private void getDataOrder(){
+    private void getDataInvoice(){
         try {
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("NO");
@@ -96,7 +104,7 @@ public class mainForm extends javax.swing.JFrame {
             
             con = Koneksi.getKoneksi();
             st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM `order`");
+            rs = st.executeQuery("SELECT * FROM invoice");
             
             while(rs.next()){
                 Object[] obj = new Object[7];
@@ -364,7 +372,7 @@ public class mainForm extends javax.swing.JFrame {
             LocalDateTime now = LocalDateTime.now();
             txtNewIdLaptop.setText("LPT"+dtf.format(now));
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
     //Auto Kode Laptop
@@ -388,6 +396,18 @@ public class mainForm extends javax.swing.JFrame {
             }
         }
     //Auto kode client
+        
+    //Auto Kode ID ORDER
+    private void autoKodeInvoice(){
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            LocalDateTime now = LocalDateTime.now();
+            txtIdOrder.setText("INV"+dtf.format(now));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    //Auto Kode ID ORDER    
     
     //Bersihkan textfield di add owner
     private void addOwnerBersih(){
@@ -539,11 +559,13 @@ public class mainForm extends javax.swing.JFrame {
         lblIdLaptop = new javax.swing.JLabel();
         lblOwner = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
-        btnOrder1 = new javax.swing.JButton();
+        btnOrder = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         lblCariNoTelp = new javax.swing.JLabel();
         btnCalc = new javax.swing.JButton();
         lblJumlahHari = new javax.swing.JLabel();
+        txtIdOrder = new javax.swing.JTextField();
+        jLabel35 = new javax.swing.JLabel();
         pn_data = new javax.swing.JPanel();
         pn_dataButton = new javax.swing.JPanel();
         btnDataOwner = new javax.swing.JButton();
@@ -1315,7 +1337,6 @@ public class mainForm extends javax.swing.JFrame {
 
         lblMerk.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblMerk.setForeground(new java.awt.Color(255, 255, 255));
-        lblMerk.setText("-");
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -1323,7 +1344,6 @@ public class mainForm extends javax.swing.JFrame {
 
         lblModel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblModel.setForeground(new java.awt.Color(255, 255, 255));
-        lblModel.setText("-");
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
@@ -1331,7 +1351,6 @@ public class mainForm extends javax.swing.JFrame {
 
         lblTahun.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTahun.setForeground(new java.awt.Color(255, 255, 255));
-        lblTahun.setText("-");
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
@@ -1357,7 +1376,7 @@ public class mainForm extends javax.swing.JFrame {
 
         jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel30.setText("Nama client         :");
+        jLabel30.setText("Nama client         ");
 
         jLabel31.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel31.setForeground(new java.awt.Color(255, 0, 0));
@@ -1394,9 +1413,8 @@ public class mainForm extends javax.swing.JFrame {
 
         lblTotalHarga.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTotalHarga.setForeground(new java.awt.Color(255, 0, 0));
-        lblTotalHarga.setText("-");
 
-        jScrollPane13.setBorder(null);
+        jScrollPane13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane13.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane13.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -1405,7 +1423,6 @@ public class mainForm extends javax.swing.JFrame {
         lblSpek.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblSpek.setForeground(new java.awt.Color(255, 255, 255));
         lblSpek.setRows(5);
-        lblSpek.setText("-");
         lblSpek.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane13.setViewportView(lblSpek);
 
@@ -1415,26 +1432,29 @@ public class mainForm extends javax.swing.JFrame {
 
         lblIdLaptop.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblIdLaptop.setForeground(new java.awt.Color(255, 255, 255));
-        lblIdLaptop.setText("-");
 
         lblOwner.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblOwner.setForeground(new java.awt.Color(255, 255, 255));
-        lblOwner.setText("-");
 
         jLabel67.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(255, 255, 255));
         jLabel67.setText("ID Owner      :");
 
-        btnOrder1.setBackground(new java.awt.Color(51, 58, 72));
-        btnOrder1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnOrder1.setForeground(new java.awt.Color(255, 255, 255));
-        btnOrder1.setText("Process");
-        btnOrder1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnOrder.setBackground(new java.awt.Color(51, 58, 72));
+        btnOrder.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnOrder.setForeground(new java.awt.Color(255, 255, 255));
+        btnOrder.setText("Process");
+        btnOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnOrder1MousePressed(evt);
+                btnOrderMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnOrder1MouseReleased(evt);
+                btnOrderMouseReleased(evt);
+            }
+        });
+        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderActionPerformed(evt);
             }
         });
 
@@ -1454,6 +1474,10 @@ public class mainForm extends javax.swing.JFrame {
 
         lblJumlahHari.setForeground(new java.awt.Color(255, 255, 255));
 
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel35.setText("ID Order             :");
+
         javax.swing.GroupLayout pn_orderLaptopLayout = new javax.swing.GroupLayout(pn_orderLaptop);
         pn_orderLaptop.setLayout(pn_orderLaptopLayout);
         pn_orderLaptopLayout.setHorizontalGroup(
@@ -1464,43 +1488,16 @@ public class mainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19)
-                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                .addComponent(jLabel27)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(lblTahun, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lblModel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lblMerk, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel63)
-                                            .addComponent(jLabel67)))
-                                    .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                        .addGap(5, 5, 5)
-                                        .addComponent(jLabel14)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblHargaSewaHarian, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jLabel17))
-                        .addGap(18, 18, 18)
-                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblIdLaptop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(351, 351, 351))
-                    .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                         .addComponent(jSeparator1)
                         .addContainerGap())
                     .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                        .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(869, 869, 869))
-                    .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel24)
+                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                                .addComponent(jLabel27)
+                                .addGap(11, 11, 11)
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblHargaSewaHarian, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                                 .addComponent(txtCariNoTelpClient, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -1521,60 +1518,85 @@ public class mainForm extends javax.swing.JFrame {
                                                 .addComponent(jLabel31)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(lblTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(btnOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                                .addComponent(lblJumlahHari, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(btnCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(btnOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblJumlahHari, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                                         .addGap(27, 27, 27)
-                                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(dateKembali, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                                            .addComponent(dateAmbil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(txtNamaClient))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(lblCariNoTelp, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(dateKembali, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                                                    .addComponent(dateAmbil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lblIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(lblCariNoTelp, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                                .addComponent(jLabel35)
+                                .addGap(27, 27, 27)
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNamaClient, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtIdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel19))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(lblModel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel63)
+                            .addComponent(jLabel67))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(lblIdLaptop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(286, 286, 286))))
         );
         pn_orderLaptopLayout.setVerticalGroup(
             pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
                     .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblIdLaptop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMerk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel17)
+                                .addComponent(jLabel63)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel67)
+                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                            .addComponent(lblModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel24)
+                            .addComponent(lblTahun, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel17)
-                                            .addComponent(jLabel63))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel19)
-                                            .addComponent(jLabel67)))
-                                    .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                        .addComponent(lblIdLaptop)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lblOwner)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel24)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel26))
-                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                .addComponent(lblMerk)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblModel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblTahun)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(27, 27, 27)
+                            .addComponent(jLabel26)
+                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel27)
                             .addComponent(lblHargaSewaHarian)
@@ -1593,6 +1615,10 @@ public class mainForm extends javax.swing.JFrame {
                             .addComponent(jLabel34)
                             .addComponent(lblIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNamaClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel35)
+                            .addComponent(txtIdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel32)
@@ -1601,20 +1627,20 @@ public class mainForm extends javax.swing.JFrame {
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel33)
                             .addComponent(dateKembali, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblJumlahHari, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel37)
-                                .addComponent(btnCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel37))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel38)
                             .addComponent(jLabel31)
-                            .addComponent(lblTotalHarga))
+                            .addComponent(lblTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnOrder1)
-                        .addGap(24, 24, 24))))
+                        .addComponent(btnOrder)
+                        .addContainerGap())))
         );
 
         pn_clientMenu.add(pn_orderLaptop, "card2");
@@ -2526,6 +2552,7 @@ public class mainForm extends javax.swing.JFrame {
             }
             getDataLaptop();
             addLaptopBersih();
+            getListLaptop();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -2573,13 +2600,13 @@ public class mainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtNewHargaSewaKeyTyped
 
-    private void btnOrder1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOrder1MousePressed
+    private void btnOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOrderMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnOrder1MousePressed
+    }//GEN-LAST:event_btnOrderMousePressed
 
-    private void btnOrder1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOrder1MouseReleased
+    private void btnOrderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOrderMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnOrder1MouseReleased
+    }//GEN-LAST:event_btnOrderMouseReleased
 
     //METHOD ADD CLIENT
     private void btnAddClientFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientFormActionPerformed
@@ -2748,26 +2775,83 @@ public class mainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCariNoTelpClientKeyReleased
     //Menampilkan nama client dari kolom pencarian yang ada di panel order laptop
     
-    //Mencari jarak hari dari kedua 
+    //Mencari jarak hari dari kedua date
     private void btnCalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcActionPerformed
         // TODO add your handling code here:
+        
+            
+ 
         LocalDate tanggal1 = dateAmbil.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate tanggal2 = dateKembali.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            
         
         long jarakHari = ChronoUnit.DAYS.between(tanggal1, tanggal2);
-        
         String jarak = String.valueOf(jarakHari);
         lblJumlahHari.setText(jarak);
+        int harga = Integer.parseInt(lblHargaSewaHarian.getText());
+        int totalHarga = harga * Integer.parseInt(lblJumlahHari.getText());
         
-        int hargaSewa = Integer.parseInt(lblHargaSewaHarian.getText());
-        int totalHarga = hargaSewa * Integer.parseInt(lblJumlahHari.getText());
+        lblTotalHarga.setText(Integer.toString(totalHarga)); 
         
-        lblTotalHarga.setText(Integer.toString(totalHarga));
-        
-
         
     }//GEN-LAST:event_btnCalcActionPerformed
-    //Mencari jarak hari dari kedua 
+    //Mencari jarak hari dari kedua date
+    
+    
+    //METHOD PROSES ORDER
+    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+        // TODO add your handling code here:
+        try {
+            String idOrder = txtIdOrder.getText();
+            String idLaptop = lblIdLaptop.getText();
+            String idClient = lblIdClient.getText();
+            String bayar = lblTotalHarga.getText();
+            String model = lblModel.getText();
+            
+            Date tanggal1 = dateAmbil.getDate();
+            SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
+            String strTanggal1 = formatter1.format(tanggal1);
+            
+            Date tanggal2 = dateKembali.getDate();
+            SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+            String strTanggal2 = formatter2.format(tanggal2);
+            
+            
+            
+            if(idLaptop.equals("-") || idClient.isEmpty() || bayar.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Lengkapi form");
+            }else{
+                String sql1 = "INSERT INTO invoice(id_order, id_client, id_laptop,tanggal_ambil , tanggal_kembali, total_bayar) VALUES (?,?,?,?,?,?)";
+                String sql2 = "DELETE FROM laptop WHERE model_laptop='"+model+"'";
+                con1 = Koneksi.getKoneksi();
+                ps1 = con1.prepareStatement(sql1);
+                ps1.setString(1, idOrder);
+                ps1.setString(2, idClient);
+                ps1.setString(3, idLaptop);
+                ps1.setString(4, strTanggal1);
+                ps1.setString(5, strTanggal2);
+                ps1.setString(6, bayar);
+                ps1.executeUpdate();
+                
+                con2 = Koneksi.getKoneksi();
+                ps2 = con2.prepareStatement(sql2);
+                ps2.execute();
+                JOptionPane.showMessageDialog(this, "berhasil membuat orderan");
+                getDataInvoice();
+                getListLaptop();
+                
+            }
+            
+            
+            
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnOrderActionPerformed
+    //METHOD PROSES ORDER
+
     
     
     
@@ -2825,7 +2909,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNewAddLaptop;
     private javax.swing.JButton btnNewOwner;
-    private javax.swing.JButton btnOrder1;
+    private javax.swing.JButton btnOrder;
     private javax.swing.JButton btnOrderLaptop;
     private com.toedter.calendar.JDateChooser dateAmbil;
     private com.toedter.calendar.JDateChooser dateKembali;
@@ -2856,6 +2940,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
@@ -2982,6 +3067,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtDataIdOwner;
     private javax.swing.JTextField txtDataNamaOwner;
     private javax.swing.JTextField txtDataTeleponOwner;
+    private javax.swing.JTextField txtIdOrder;
     private javax.swing.JTextField txtNamaClient;
     private javax.swing.JTextField txtNamaOwnerLaptop;
     private javax.swing.JTextField txtNewHargaSewa;
