@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -85,24 +87,23 @@ public class mainForm extends javax.swing.JFrame {
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("NO");
             model.addColumn("ID Order");
-            model.addColumn("ID Laptop");
             model.addColumn("ID Client");
+            model.addColumn("ID Laptop");
             model.addColumn("Tanggal ambil");
             model.addColumn("Tanggal kembali");
-            model.addColumn("Total bayar");
-         
+            model.addColumn("Total bayar");    
             int no = 1;
             
             con = Koneksi.getKoneksi();
             st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM order");
+            rs = st.executeQuery("SELECT * FROM `order`");
             
             while(rs.next()){
                 Object[] obj = new Object[7];
                 obj[0] = no++;
                 obj[1] = rs.getString("id_order");
-                obj[2] = rs.getString("id_laptop");
-                obj[3] = rs.getString("id_client");
+                obj[2] = rs.getString("id_client");
+                obj[3] = rs.getString("id_laptop");
                 obj[4] = rs.getString("tanggal_ambil");
                 obj[5] = rs.getString("tanggal_kembali");
                 obj[6] = rs.getString("total_bayar");
@@ -359,17 +360,9 @@ public class mainForm extends javax.swing.JFrame {
     //Auto Kode Laptop
     private void autoKodeLaptop(){
         try {
-            con = Koneksi.getKoneksi();
-            st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM laptop ORDER BY id_laptop DESC");
-            if(rs.next()){
-                String lastId = rs.getString("id_laptop");
-                int number = Integer.parseInt(lastId.substring(3));
-                String newId = String.format("LPT%05d", number + 1);
-                txtNewIdLaptop.setText(newId);
-            }else{
-                txtNewIdLaptop.setText("LPT00001");
-            }
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            LocalDateTime now = LocalDateTime.now();
+            txtNewIdLaptop.setText("LPT"+dtf.format(now));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1836,8 +1829,7 @@ public class mainForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDataOwnerDelete))
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataOwnerLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2221,7 +2213,7 @@ public class mainForm extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "No", "ID Order", "ID Laptop", "ID Client", "Tanggal ambil", "Tanggal kembali", "Total Bayar"
+                "No", "ID Order", "ID Client", "ID Laptop", "Tanggal ambil", "Tanggal kembali", "Total Bayar"
             }
         ));
         jScrollPane12.setViewportView(tblOrder);
@@ -2532,7 +2524,6 @@ public class mainForm extends javax.swing.JFrame {
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Laptop berhasil ditambahkan");
             }
-            autoKodeLaptop();
             getDataLaptop();
             addLaptopBersih();
         } catch (HeadlessException | SQLException e) {

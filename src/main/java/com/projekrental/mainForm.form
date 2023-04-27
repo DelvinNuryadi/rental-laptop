@@ -2081,7 +2081,6 @@
                                           <Component id="jScrollPane7" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtDataIdOwner" min="-2" pref="210" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="623" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -3059,8 +3058,8 @@
                               <Table columnCount="7" rowCount="4">
                                 <Column editable="true" title="No" type="java.lang.Object"/>
                                 <Column editable="true" title="ID Order" type="java.lang.Object"/>
-                                <Column editable="true" title="ID Laptop" type="java.lang.Object"/>
                                 <Column editable="true" title="ID Client" type="java.lang.Object"/>
+                                <Column editable="true" title="ID Laptop" type="java.lang.Object"/>
                                 <Column editable="true" title="Tanggal ambil" type="java.lang.Object"/>
                                 <Column editable="true" title="Tanggal kembali" type="java.lang.Object"/>
                                 <Column editable="true" title="Total Bayar" type="java.lang.Object"/>
