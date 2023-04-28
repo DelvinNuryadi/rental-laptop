@@ -6,6 +6,7 @@ package com.projekrental;
 
 import java.awt.Color;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +22,10 @@ import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -36,6 +40,7 @@ public class mainForm extends javax.swing.JFrame {
     private PreparedStatement ps2;
     private Statement st;
     private ResultSet rs;
+    private Timer timer;
 
     /**
      * Creates new form mainForm
@@ -47,16 +52,29 @@ public class mainForm extends javax.swing.JFrame {
         getDataLaptop();
         getDataClient();
         getDataInvoice();
-        autoKodeOwner();
-        autoKodeLaptop();
-        autoKodeClient();
-        autoKodeInvoice();
-        
         getListLaptop();
+        autoKodeId();
+
+    
+    }
+//-------------------METHOD TIMER--------------------------//
+    //method untuk menghentikan timer
+    private void stopTimer(){
+       timer.stop();
         
     }
+    //method untuk menghentikan waktu saat jframe ditutup
+    @Override
+    public void dispose(){
+        stopTimer();
+        super.dispose();
+    }
+    //method untuk menghentikan waktu saat jframe ditutup
+    //method untuk menghentikan timer
+//-------------------METHOD TIMER--------------------------//
     
-    
+ 
+//-------------------METHOD LOAD/MENGAMBIL/MENAMPILKAN DATA--------------------------//
     //load data owner
     private void getDataOwner(){
         try {
@@ -66,7 +84,7 @@ public class mainForm extends javax.swing.JFrame {
             model.addColumn("Nama");
             model.addColumn("Telepon");
             model.addColumn("Alamat");
-            int no = 1;
+            int no = 0;
        
             con = Koneksi.getKoneksi();
             st = con.createStatement();
@@ -84,8 +102,9 @@ public class mainForm extends javax.swing.JFrame {
                 tblOwner.setModel(model);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal mendapatkan data owner");
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
+       
     }
     //load data owner
     
@@ -100,7 +119,7 @@ public class mainForm extends javax.swing.JFrame {
             model.addColumn("Tanggal ambil");
             model.addColumn("Tanggal kembali");
             model.addColumn("Total bayar");    
-            int no = 1;
+            int no = 0;
             
             con = Koneksi.getKoneksi();
             st = con.createStatement();
@@ -137,7 +156,7 @@ public class mainForm extends javax.swing.JFrame {
             model.addColumn("Spesifikasi");
             model.addColumn("Tahun");
             model.addColumn("Harga sewa/hari");
-            int no = 1;
+            int no = 0;
             
             con = Koneksi.getKoneksi();
             st = con.createStatement();
@@ -170,6 +189,7 @@ public class mainForm extends javax.swing.JFrame {
             model.addColumn("Nama");
             model.addColumn("Telepon");
             model.addColumn("Alamat");
+            int no = 0;
 
             
             con = Koneksi.getKoneksi();
@@ -177,11 +197,12 @@ public class mainForm extends javax.swing.JFrame {
             rs = st.executeQuery("SELECT * FROM client");
             
             while(rs.next()){
-                Object[] obj = new Object[4];
-                obj[0] = rs.getString("id_client");
-                obj[1] = rs.getString("nama_client");
-                obj[2] = rs.getString("telepon_client");
-                obj[3] = rs.getString("alamat_client");
+                Object[] obj = new Object[5];
+                obj[0] = no++;
+                obj[1] = rs.getString("id_client");
+                obj[2] = rs.getString("nama_client");
+                obj[3] = rs.getString("telepon_client");
+                obj[4] = rs.getString("alamat_client");
                 
                 model.addRow(obj);
                 tblClient.setModel(model);
@@ -342,73 +363,62 @@ public class mainForm extends javax.swing.JFrame {
         return result;
     }
     //load spesifikasi laptop dari list laptop
+//-------------------METHOD LOAD/MENGAMBIL/MENAMPILKAN DATA--------------------------//
+    
+    
 
-    //Auto Kode owner
-    private void autoKodeOwner(){
-        try {
-            con = Koneksi.getKoneksi();
-            st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM owner ORDER BY id_owner DESC");
-            if(rs.next()){
-                String lastId = rs.getString("id_owner");
-                int number = Integer.parseInt(lastId.substring(3));
-                String newId = String.format("OWN%05d", number + 1);
-                txtNewIdOwner.setText(newId);
-            }else{
-                txtNewIdOwner.setText("OWN00001");
-            }
-                
-                
-        } catch (NumberFormatException | SQLException e) {
-            e.printStackTrace();
-        }
+//--------------------------METHOD GENERATING ID CODE------------------------------//  
+    //menampilkan kode id diseluruh texfield id
+    private void autoKodeId(){
+        timer = new Timer(1000, (ActionEvent e) -> {
+            //Mengubah nilai pada JTextField dengan nilai ID transaksi saat ini
+            txtNewIdLaptop.setText(generateIdLaptop());
+            txtNewIdOwner.setText(generateIdOwner());
+            txtAddIdClient.setText(generateIdClient());
+            txtIdInvoice.setText(generateIdInvoice());
+        });
+        timer.start();   
     }
-    //Auto Kode owner
+    //menampilkan kode id diseluruh texfield id
     
-    //Auto Kode Laptop
-    private void autoKodeLaptop(){
-        try {
+    
+    //generate id owner
+    private String generateIdOwner(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        LocalDateTime now = LocalDateTime.now();
+        return "OWN" + now.format(dtf);      
+    }
+    //generate id owner
+    
+    //generate id Laptop
+    private String generateIdLaptop(){
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
             LocalDateTime now = LocalDateTime.now();
-            txtNewIdLaptop.setText("LPT"+dtf.format(now));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+            return "LPT" + now.format(dtf);          
+    } 
+    //generate id Laptop
+
+    //generate id client
+    private String generateIdClient(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        LocalDateTime now = LocalDateTime.now();
+        return "CLN" + now.format(dtf);  
+            
     }
-    //Auto Kode Laptop
-    
-    //Auto Kode client
-        private void autoKodeClient(){
-            try {
-                con = Koneksi.getKoneksi();
-                st = con.createStatement();
-                rs = st.executeQuery("SELECT * FROM client ORDER BY id_client DESC");
-                if(rs.next()){
-                    String lastId = rs.getString("id_client");
-                    int number = Integer.parseInt(lastId.substring(3));
-                    String newId = String.format("CLN%05d", number + 1);
-                    txtAddIdClient.setText(newId);
-                }else{
-                    txtAddIdClient.setText("CLN00001");
-                }
-            } catch (NumberFormatException | SQLException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage());
-            }
-        }
-    //Auto kode client
+    //generate id client
         
-    //Auto Kode ID ORDER
-    private void autoKodeInvoice(){
-        try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-            LocalDateTime now = LocalDateTime.now();
-            txtIdOrder.setText("INV"+dtf.format(now));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+    //generate id invoice
+    private String generateIdInvoice(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        LocalDateTime now = LocalDateTime.now();
+        return "INV" + now.format(dtf);  
     }
-    //Auto Kode ID ORDER    
+    //generate id invoice
+//--------------------------METHOD GENERATING ID CODE------------------------------// 
     
+    
+    
+//--------------------------METHOD MEMBERSIHKAN TEXTFIELD DKK------------------------------//    
     //Bersihkan textfield di add owner
     private void addOwnerBersih(){
         txtNewNamaOwner.setText("");
@@ -443,6 +453,24 @@ public class mainForm extends javax.swing.JFrame {
         txtDataAlamatOwner.setText("");
     }
     //bersihkan textfield di data owner
+    
+    //Bersihkan textfield dan label di panel order laptop
+    private void orderLaptopBersih(){
+        lblMerk.setText("-");
+        lblModel.setText("-");
+        lblTahun.setText("-");
+        lblSpek.setText("-");
+        lblIdLaptop.setText("-");
+        lblOwner.setText("-");
+        lblHargaSewaHarian.setText("-");
+        txtCariNoTelpClient.setText("");
+        dateAmbil.setDate(null);
+        dateKembali.setDate(null);
+        lblJumlahHari.setText("-");
+        lblTotalHarga.setText("-");
+    }
+    //Bersihkan textfield dan label di panel order laptop
+//--------------------------METHOD MEMBERSIHKAN TEXTFIELD DKK------------------------------//   
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -552,8 +580,6 @@ public class mainForm extends javax.swing.JFrame {
         jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         lblTotalHarga = new javax.swing.JLabel();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        lblSpek = new javax.swing.JTextArea();
         txtNamaClient = new javax.swing.JTextField();
         jLabel63 = new javax.swing.JLabel();
         lblIdLaptop = new javax.swing.JLabel();
@@ -564,8 +590,10 @@ public class mainForm extends javax.swing.JFrame {
         lblCariNoTelp = new javax.swing.JLabel();
         btnCalc = new javax.swing.JButton();
         lblJumlahHari = new javax.swing.JLabel();
-        txtIdOrder = new javax.swing.JTextField();
+        txtIdInvoice = new javax.swing.JTextField();
         jLabel35 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        lblSpek = new javax.swing.JTextArea();
         pn_data = new javax.swing.JPanel();
         pn_dataButton = new javax.swing.JPanel();
         btnDataOwner = new javax.swing.JButton();
@@ -587,7 +615,7 @@ public class mainForm extends javax.swing.JFrame {
         txtDataAlamatOwner = new javax.swing.JTextArea();
         btnDataOwnerUpdate = new javax.swing.JButton();
         btnDataOwnerDelete = new javax.swing.JButton();
-        jTextField13 = new javax.swing.JTextField();
+        txtCariOwner = new javax.swing.JTextField();
         jLabel47 = new javax.swing.JLabel();
         txtDataIdOwner = new javax.swing.JTextField();
         jLabel72 = new javax.swing.JLabel();
@@ -597,16 +625,18 @@ public class mainForm extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         tblClient = new javax.swing.JTable();
         jLabel49 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
+        txtDataNamaClient = new javax.swing.JTextField();
+        txtDataTeleponClient = new javax.swing.JTextField();
         jLabel50 = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jTextArea6 = new javax.swing.JTextArea();
+        txtDataAlamatClient = new javax.swing.JTextArea();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jTextField16 = new javax.swing.JTextField();
         jLabel52 = new javax.swing.JLabel();
+        txtDataIdClient = new javax.swing.JTextField();
+        jLabel64 = new javax.swing.JLabel();
         pn_dataLaptop = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel53 = new javax.swing.JLabel();
@@ -623,7 +653,6 @@ public class mainForm extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jTextField19 = new javax.swing.JTextField();
         jLabel57 = new javax.swing.JLabel();
-        jTextField20 = new javax.swing.JTextField();
         jLabel58 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
         jTextField22 = new javax.swing.JTextField();
@@ -631,6 +660,7 @@ public class mainForm extends javax.swing.JFrame {
         jLabel60 = new javax.swing.JLabel();
         jTextField23 = new javax.swing.JTextField();
         jLabel61 = new javax.swing.JLabel();
+        jYearChooser1 = new com.toedter.calendar.JYearChooser();
         pn_dataTransaksi = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel62 = new javax.swing.JLabel();
@@ -863,6 +893,10 @@ public class mainForm extends javax.swing.JFrame {
 
         lblOwnerTelepon.setForeground(new java.awt.Color(255, 0, 51));
 
+        txtNewIdOwner.setEditable(false);
+        txtNewIdOwner.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtNewIdOwner.setEnabled(false);
+
         jLabel68.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
         jLabel68.setForeground(new java.awt.Color(255, 255, 255));
         jLabel68.setText("Id Owner");
@@ -949,6 +983,10 @@ public class mainForm extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Nama owner");
 
+        txtNamaOwnerLaptop.setEditable(false);
+        txtNamaOwnerLaptop.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtNamaOwnerLaptop.setEnabled(false);
+
         jLabel8.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Merk");
@@ -1009,6 +1047,10 @@ public class mainForm extends javax.swing.JFrame {
         jLabel45.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel45.setForeground(new java.awt.Color(255, 255, 255));
         jLabel45.setText("ADD LAPTOP");
+
+        txtNewIdLaptop.setEditable(false);
+        txtNewIdLaptop.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtNewIdLaptop.setEnabled(false);
 
         jLabel69.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
         jLabel69.setForeground(new java.awt.Color(255, 255, 255));
@@ -1229,6 +1271,9 @@ public class mainForm extends javax.swing.JFrame {
         jLabel46.setForeground(new java.awt.Color(255, 255, 255));
         jLabel46.setText("ADD CLIENT");
 
+        txtAddIdClient.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtAddIdClient.setEnabled(false);
+
         jLabel70.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
         jLabel70.setForeground(new java.awt.Color(255, 255, 255));
         jLabel70.setText("Id Client");
@@ -1337,6 +1382,7 @@ public class mainForm extends javax.swing.JFrame {
 
         lblMerk.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblMerk.setForeground(new java.awt.Color(255, 255, 255));
+        lblMerk.setText("-");
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -1344,6 +1390,7 @@ public class mainForm extends javax.swing.JFrame {
 
         lblModel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblModel.setForeground(new java.awt.Color(255, 255, 255));
+        lblModel.setText("-");
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
@@ -1351,6 +1398,7 @@ public class mainForm extends javax.swing.JFrame {
 
         lblTahun.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTahun.setForeground(new java.awt.Color(255, 255, 255));
+        lblTahun.setText("-");
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
@@ -1413,18 +1461,11 @@ public class mainForm extends javax.swing.JFrame {
 
         lblTotalHarga.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTotalHarga.setForeground(new java.awt.Color(255, 0, 0));
+        lblTotalHarga.setText("-");
 
-        jScrollPane13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jScrollPane13.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane13.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        lblSpek.setBackground(new java.awt.Color(26, 26, 26));
-        lblSpek.setColumns(20);
-        lblSpek.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblSpek.setForeground(new java.awt.Color(255, 255, 255));
-        lblSpek.setRows(5);
-        lblSpek.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jScrollPane13.setViewportView(lblSpek);
+        txtNamaClient.setEditable(false);
+        txtNamaClient.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtNamaClient.setEnabled(false);
 
         jLabel63.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel63.setForeground(new java.awt.Color(255, 255, 255));
@@ -1432,9 +1473,11 @@ public class mainForm extends javax.swing.JFrame {
 
         lblIdLaptop.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblIdLaptop.setForeground(new java.awt.Color(255, 255, 255));
+        lblIdLaptop.setText("-");
 
         lblOwner.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblOwner.setForeground(new java.awt.Color(255, 255, 255));
+        lblOwner.setText("-");
 
         jLabel67.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(255, 255, 255));
@@ -1473,10 +1516,30 @@ public class mainForm extends javax.swing.JFrame {
         });
 
         lblJumlahHari.setForeground(new java.awt.Color(255, 255, 255));
+        lblJumlahHari.setText("-");
+
+        txtIdInvoice.setEditable(false);
+        txtIdInvoice.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtIdInvoice.setEnabled(false);
 
         jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel35.setForeground(new java.awt.Color(255, 255, 255));
         jLabel35.setText("ID Order             :");
+
+        jScrollPane5.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane5.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane5.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        lblSpek.setBackground(new java.awt.Color(26, 26, 26));
+        lblSpek.setColumns(20);
+        lblSpek.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblSpek.setForeground(new java.awt.Color(255, 255, 255));
+        lblSpek.setLineWrap(true);
+        lblSpek.setRows(5);
+        lblSpek.setText("-");
+        lblSpek.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane5.setViewportView(lblSpek);
 
         javax.swing.GroupLayout pn_orderLaptopLayout = new javax.swing.GroupLayout(pn_orderLaptop);
         pn_orderLaptop.setLayout(pn_orderLaptopLayout);
@@ -1538,65 +1601,69 @@ public class mainForm extends javax.swing.JFrame {
                                 .addGap(27, 27, 27)
                                 .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNamaClient, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtIdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtIdInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                                 .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(lblTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
                             .addComponent(jLabel19))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(lblModel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                            .addComponent(lblModel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(119, 119, 119)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel63)
                             .addComponent(jLabel67))
                         .addGap(18, 18, 18)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                             .addComponent(lblIdLaptop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(286, 286, 286))))
+                        .addGap(174, 174, 174))))
         );
         pn_orderLaptopLayout.setVerticalGroup(
             pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addGroup(pn_orderLaptopLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblIdLaptop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblMerk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel17)
-                                .addComponent(jLabel63)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                            .addComponent(jLabel19)
-                            .addComponent(jLabel67)
-                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                            .addComponent(lblModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel24)
-                            .addComponent(lblTahun, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel26)
-                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(45, 45, 45)
+                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel17)
+                                    .addComponent(lblMerk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel24)
+                                    .addComponent(lblTahun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel26)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(97, 97, 97))
+                            .addGroup(pn_orderLaptopLayout.createSequentialGroup()
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblIdLaptop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel63, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel67)
+                                    .addComponent(lblOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(219, 219, 219)))
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel27)
                             .addComponent(lblHargaSewaHarian)
@@ -1618,7 +1685,7 @@ public class mainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel35)
-                            .addComponent(txtIdOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtIdInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel32)
@@ -1634,10 +1701,11 @@ public class mainForm extends javax.swing.JFrame {
                             .addComponent(lblJumlahHari, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel37))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel38)
-                            .addComponent(jLabel31)
-                            .addComponent(lblTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pn_orderLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel38)
+                                .addComponent(jLabel31)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnOrder)
                         .addContainerGap())))
@@ -1771,7 +1839,7 @@ public class mainForm extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "No", "Id Owner", "Nama", "Telepon", "Alamat"
+                "No", "ID Owner", "Nama", "Telepon", "Alamat"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1819,11 +1887,17 @@ public class mainForm extends javax.swing.JFrame {
             }
         });
 
+        txtCariOwner.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariOwnerKeyReleased(evt);
+            }
+        });
+
         jLabel47.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\magnifying-glass.png")); // NOI18N
 
         jLabel72.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel72.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel72.setText("Id Owner");
+        jLabel72.setText("ID Owner");
 
         javax.swing.GroupLayout pn_dataOwnerLayout = new javax.swing.GroupLayout(pn_dataOwner);
         pn_dataOwner.setLayout(pn_dataOwnerLayout);
@@ -1834,34 +1908,35 @@ public class mainForm extends javax.swing.JFrame {
                 .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataOwnerLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane6))
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE))
                     .addGroup(pn_dataOwnerLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel40)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataOwnerLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel42)
-                            .addComponent(jLabel43)
-                            .addComponent(jLabel72))
-                        .addGap(19, 19, 19)
-                        .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDataTeleponOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDataNamaOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pn_dataOwnerLayout.createSequentialGroup()
-                                .addComponent(btnDataOwnerUpdate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDataOwnerDelete))
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataOwnerLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCariOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(pn_dataOwnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel42)
+                    .addComponent(jLabel43)
+                    .addComponent(jLabel72))
+                .addGap(19, 19, 19)
+                .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDataTeleponOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataNamaOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pn_dataOwnerLayout.createSequentialGroup()
+                        .addComponent(btnDataOwnerUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDataOwnerDelete))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pn_dataOwnerLayout.setVerticalGroup(
             pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1869,14 +1944,11 @@ public class mainForm extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jLabel40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel72))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_dataOwnerLayout.createSequentialGroup()
-                        .addComponent(jLabel72)
-                        .addGap(16, 16, 16))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataOwnerLayout.createSequentialGroup()
-                        .addComponent(txtDataIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel41)
                     .addComponent(txtDataNamaOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1894,10 +1966,10 @@ public class mainForm extends javax.swing.JFrame {
                     .addComponent(btnDataOwnerDelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pn_dataOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCariOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel47))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1924,15 +1996,20 @@ public class mainForm extends javax.swing.JFrame {
 
         tblClient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Id Client", "Nama", "Telepon", "Alamat"
+                "No", "ID Client", "Nama", "Telepon", "Alamat"
             }
         ));
+        tblClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientMouseClicked(evt);
+            }
+        });
         jScrollPane8.setViewportView(tblClient);
 
         jLabel49.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1947,15 +2024,19 @@ public class mainForm extends javax.swing.JFrame {
         jLabel51.setForeground(new java.awt.Color(255, 255, 255));
         jLabel51.setText("Alamat");
 
-        jTextArea6.setColumns(20);
-        jTextArea6.setRows(5);
-        jScrollPane9.setViewportView(jTextArea6);
+        txtDataAlamatClient.setColumns(20);
+        txtDataAlamatClient.setRows(5);
+        jScrollPane9.setViewportView(txtDataAlamatClient);
 
         jButton6.setText("Update");
 
         jButton7.setText("Delete");
 
         jLabel52.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\magnifying-glass.png")); // NOI18N
+
+        jLabel64.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel64.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel64.setText("ID client");
 
         javax.swing.GroupLayout pn_dataClientLayout = new javax.swing.GroupLayout(pn_dataClient);
         pn_dataClient.setLayout(pn_dataClientLayout);
@@ -1966,36 +2047,35 @@ public class mainForm extends javax.swing.JFrame {
                 .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataClientLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 949, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataClientLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel52)
-                                .addGap(12, 12, 12))))
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 949, Short.MAX_VALUE))
                     .addGroup(pn_dataClientLayout.createSequentialGroup()
-                        .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pn_dataClientLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel48))
-                            .addGroup(pn_dataClientLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel50)
-                                    .addComponent(jLabel51))
-                                .addGap(27, 27, 27)
-                                .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(pn_dataClientLayout.createSequentialGroup()
-                                        .addComponent(jButton6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton7))
-                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel48)
+                        .addGap(0, 856, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dataClientLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel52)))
                 .addContainerGap())
+            .addGroup(pn_dataClientLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel50)
+                    .addComponent(jLabel51)
+                    .addComponent(jLabel64, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDataIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataTeleponClient, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataNamaClient, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pn_dataClientLayout.createSequentialGroup()
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7))
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pn_dataClientLayout.setVerticalGroup(
             pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2003,14 +2083,18 @@ public class mainForm extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jLabel48)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel64)
+                    .addComponent(txtDataIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel49)
-                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDataNamaClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel50)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDataTeleponClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel51)
@@ -2019,12 +2103,12 @@ public class mainForm extends javax.swing.JFrame {
                 .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
                     .addComponent(jButton7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(pn_dataClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel52, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -2051,15 +2135,20 @@ public class mainForm extends javax.swing.JFrame {
 
         tblLaptop.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id Laptop", "Id Owner", "Merk", "Model", "Spesifikasi", "Tahun", "Harga sewa/hari"
+                "No", "ID Laptop", "ID Owner", "Merk", "Model", "Spesifikasi", "Tahun", "Harga sewa/hari"
             }
         ));
+        tblLaptop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLaptopMouseClicked(evt);
+            }
+        });
         jScrollPane10.setViewportView(tblLaptop);
 
         jLabel54.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -2133,9 +2222,7 @@ public class mainForm extends javax.swing.JFrame {
                                         .addGap(77, 77, 77)
                                         .addGroup(pn_dataLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jTextField17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(pn_dataLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jTextField18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextField23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextField21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(114, 114, 114))
@@ -2150,7 +2237,10 @@ public class mainForm extends javax.swing.JFrame {
                                             .addGroup(pn_dataLaptopLayout.createSequentialGroup()
                                                 .addComponent(jLabel59)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGroup(pn_dataLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(pn_dataLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2201,8 +2291,8 @@ public class mainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pn_dataLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel58)
-                            .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
                         .addGroup(pn_dataLaptopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel59))
@@ -2295,6 +2385,7 @@ public class mainForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+//--------------------------METHOD MERUBAH WARNA BUTTON DAN MENGGANTI PANEL------------------------------//   
     //merubah warna tombol new dan mengganti menu panel
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
@@ -2473,7 +2564,9 @@ public class mainForm extends javax.swing.JFrame {
         pn_dataMenu.repaint();
         pn_dataMenu.revalidate();
     }//GEN-LAST:event_btnDataClientActionPerformed
-    
+//--------------------------METHOD MERUBAH WARNA BUTTON DAN MENGGANTI PANEL------------------------------//   
+ 
+ 
     //METHOD ADD OWNER
     private void btnNewOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewOwnerActionPerformed
         // TODO add your handling code here:
@@ -2501,10 +2594,7 @@ public class mainForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         getDataOwner();
-        autoKodeOwner();
-        addOwnerBersih();
-        
-        
+        addOwnerBersih();    
     }//GEN-LAST:event_btnNewOwnerActionPerformed
 
     //method agar textfield telepon hanya bisa di input angka
@@ -2630,7 +2720,7 @@ public class mainForm extends javax.swing.JFrame {
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Berhasil ditambahkan");
             }
-            autoKodeClient();
+        
             addClientBersih();
             getDataClient();
                   
@@ -2684,13 +2774,14 @@ public class mainForm extends javax.swing.JFrame {
                 ps.execute();
                 JOptionPane.showMessageDialog(this, "Data owner berhasil di update");
             }
-            getDataOwner();
-            dataOwnerBersih();
+            
+            
             
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(this, e.getMessage());
         }
-        
+        getDataOwner();
+        dataOwnerBersih();
         
     }//GEN-LAST:event_btnDataOwnerUpdateActionPerformed
 
@@ -2798,15 +2889,88 @@ public class mainForm extends javax.swing.JFrame {
     //Mencari jarak hari dari kedua date
     
     
-    //METHOD PROSES ORDER
+    //METHOD PROSES ORDER DAN MENGHAPUS RECORD LIST LAPTOP
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
         // TODO add your handling code here:
         try {
-            String idOrder = txtIdOrder.getText();
             String idLaptop = lblIdLaptop.getText();
             String idClient = lblIdClient.getText();
             String bayar = lblTotalHarga.getText();
-            String model = lblModel.getText();
+ 
+            
+            if(idLaptop.equals("-") || idClient.isEmpty() || bayar.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Lengkapi form");
+            }else{
+                updateOrder();
+                deleteList();
+                orderLaptopBersih();
+           
+            }      
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnOrderActionPerformed
+    //METHOD PROSES ORDER DAN MENGHAPUS RECORD LIST LAPTOP
+    
+    private void tblLaptopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLaptopMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblLaptopMouseClicked
+
+    //method menampilkan dari tabel client ke textfield yang ada di panel
+    private void tblClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientMouseClicked
+        // TODO add your handling code here:
+        try {
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_tblClientMouseClicked
+    //method menampilkan dari tabel client ke textfield yang ada di panel
+    
+    //Mencari pada tabel owner
+    private void txtCariOwnerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariOwnerKeyReleased
+        // TODO add your handling code here:
+        String keyword = txtCariOwner.getText();
+        try {
+           DefaultTableModel model = new DefaultTableModel();
+           model.addColumn("No");
+           model.addColumn("ID Owner");
+           model.addColumn("Nama");
+           model.addColumn("Telepon");
+           model.addColumn("Alamat"); 
+           int no = 0;
+           
+           model.setRowCount(0);
+           con = Koneksi.getKoneksi();
+           st = con.createStatement();
+           rs = st.executeQuery("SELECT id_owner, nama_owner, telepon_owner, alamat_owner FROM owner WHERE nama_owner LIKE '%"+keyword+"%'");
+           while(rs.next()){
+               Object[] obj = new Object[5];
+                obj[0] = no++;
+                obj[1] = rs.getString("id_owner");
+                obj[2] = rs.getString("nama_owner");
+                obj[3] = rs.getString("telepon_owner");
+                obj[4] = rs.getString("alamat_owner");
+                
+                model.addRow(obj);
+                tblOwner.setModel(model);
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+    }//GEN-LAST:event_txtCariOwnerKeyReleased
+    //Mencari pada tabel owner
+
+    
+    
+    //METHOD UPDATE ORDER
+    private void updateOrder(){
+        try {
+            String idOrder = txtIdInvoice.getText();
+            String idLaptop = lblIdLaptop.getText();
+            String idClient = lblIdClient.getText();
+            String bayar = lblTotalHarga.getText();
             
             Date tanggal1 = dateAmbil.getDate();
             SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
@@ -2816,41 +2980,42 @@ public class mainForm extends javax.swing.JFrame {
             SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
             String strTanggal2 = formatter2.format(tanggal2);
             
-            
-            
-            if(idLaptop.equals("-") || idClient.isEmpty() || bayar.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Lengkapi form");
-            }else{
-                String sql1 = "INSERT INTO invoice(id_order, id_client, id_laptop,tanggal_ambil , tanggal_kembali, total_bayar) VALUES (?,?,?,?,?,?)";
-                String sql2 = "DELETE FROM laptop WHERE model_laptop='"+model+"'";
-                con1 = Koneksi.getKoneksi();
-                ps1 = con1.prepareStatement(sql1);
-                ps1.setString(1, idOrder);
-                ps1.setString(2, idClient);
-                ps1.setString(3, idLaptop);
-                ps1.setString(4, strTanggal1);
-                ps1.setString(5, strTanggal2);
-                ps1.setString(6, bayar);
-                ps1.executeUpdate();
+            String sql1 = "INSERT INTO invoice(id_order, id_client, id_laptop,tanggal_ambil , tanggal_kembali, total_bayar) VALUES (?,?,?,?,?,?)";
                 
-                con2 = Koneksi.getKoneksi();
-                ps2 = con2.prepareStatement(sql2);
-                ps2.execute();
-                JOptionPane.showMessageDialog(this, "berhasil membuat orderan");
-                getDataInvoice();
-                getListLaptop();
+            con = Koneksi.getKoneksi();
+            ps = con.prepareStatement(sql1);
+            ps.setString(1, idOrder);
+            ps.setString(2, idClient);
+            ps.setString(3, idLaptop);
+            ps.setString(4, strTanggal1);
+            ps.setString(5, strTanggal2);
+            ps.setString(6, bayar);
+            ps.executeUpdate();
                 
-            }
+                
+            JOptionPane.showMessageDialog(this, "berhasil membuat orderan");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        getDataInvoice();
+    }
+    //METHOD UPDATE ORDER
+    
+    //METHOD UNTUK MENGHAPUS RECORD LIST LAPTOP KETIKA DI TEKAN TOMBOL
+    private void deleteList(){
+        try {
+            String model = lblModel.getText();
             
-            
-            
-            
+            con = Koneksi.getKoneksi();
+            ps = con.prepareStatement("DELETE FROM laptop WHERE model_laptop='"+model+"'");
+            ps.execute();
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }//GEN-LAST:event_btnOrderActionPerformed
-    //METHOD PROSES ORDER
+        getListLaptop();
+    }
+    //METHOD UNTUK MENGHAPUS RECORD LIST LAPTOP KETIKA DI TEKAN TOMBOL
 
     
     
@@ -2970,6 +3135,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
@@ -2991,29 +3157,25 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea6;
     private javax.swing.JTextArea jTextArea7;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField26;
+    private com.toedter.calendar.JYearChooser jYearChooser1;
     private javax.swing.JLabel lblCari;
     private javax.swing.JLabel lblCariNoTelp;
     private javax.swing.JLabel lblHargaSewaAngka;
@@ -3062,12 +3224,17 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtAddNamaClient;
     private javax.swing.JTextField txtAddTeleponClient;
     private javax.swing.JTextField txtCariNoTelpClient;
+    private javax.swing.JTextField txtCariOwner;
     private javax.swing.JTextField txtCariTelepon;
+    private javax.swing.JTextArea txtDataAlamatClient;
     private javax.swing.JTextArea txtDataAlamatOwner;
+    private javax.swing.JTextField txtDataIdClient;
     private javax.swing.JTextField txtDataIdOwner;
+    private javax.swing.JTextField txtDataNamaClient;
     private javax.swing.JTextField txtDataNamaOwner;
+    private javax.swing.JTextField txtDataTeleponClient;
     private javax.swing.JTextField txtDataTeleponOwner;
-    private javax.swing.JTextField txtIdOrder;
+    private javax.swing.JTextField txtIdInvoice;
     private javax.swing.JTextField txtNamaClient;
     private javax.swing.JTextField txtNamaOwnerLaptop;
     private javax.swing.JTextField txtNewHargaSewa;
