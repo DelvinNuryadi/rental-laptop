@@ -877,13 +877,14 @@ public class mainForm extends javax.swing.JFrame {
                             .addGroup(pn_dashboardLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(lblWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel2)))
-                    .addGroup(pn_dashboardLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel2))))
                 .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dashboardLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
         pn_dashboardLayout.setVerticalGroup(
             pn_dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -898,13 +899,13 @@ public class mainForm extends javax.swing.JFrame {
                 .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(btnClient, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnData, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                 .addGroup(pn_dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(80, 80, 80))
+                .addGap(18, 18, 18))
         );
 
         getContentPane().add(pn_dashboard, java.awt.BorderLayout.LINE_START);
@@ -987,6 +988,8 @@ public class mainForm extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(28, 33, 67));
 
+        btnSignin.setBackground(new java.awt.Color(0, 168, 255));
+        btnSignin.setForeground(new java.awt.Color(255, 255, 255));
         btnSignin.setText("Sign in");
         btnSignin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1027,12 +1030,15 @@ public class mainForm extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSignin, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(113, 113, 113))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel65))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1042,14 +1048,8 @@ public class mainForm extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtSignInUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                             .addComponent(txtSignInPassword)
-                            .addComponent(lblValidasiSignIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jLabel65)))))
+                            .addComponent(lblValidasiSignIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSignin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -1112,6 +1112,8 @@ public class mainForm extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(28, 33, 67));
 
+        btnSignup.setBackground(new java.awt.Color(0, 168, 255));
+        btnSignup.setForeground(new java.awt.Color(255, 255, 255));
         btnSignup.setText("Sign Up");
         btnSignup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1152,12 +1154,15 @@ public class mainForm extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(113, 113, 113))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel39)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel71))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1167,14 +1172,8 @@ public class mainForm extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtSignUpUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                             .addComponent(txtSignUpPassword)
-                            .addComponent(lblValidasiSignUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel39)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jLabel71)))))
+                            .addComponent(lblValidasiSignUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -2862,6 +2861,7 @@ public class mainForm extends javax.swing.JFrame {
         btnClient.setBackground(new Color(0x333A48));
         btnData.setBackground(new Color(0x333A48));
         btnLogin.setBackground(new Color(0x1C2434));
+        btnLogOut.setBackground(new Color(0x1C2434));
         //merubah warna tombol new
         
         //menghapus semua komponen pada panel
@@ -2883,6 +2883,7 @@ public class mainForm extends javax.swing.JFrame {
         btnNew.setBackground(new Color(0x333A48));
         btnData.setBackground(new Color(0x333A48));
         btnLogin.setBackground(new Color(0x1C2434));
+        btnLogOut.setBackground(new Color(0x1C2434));
     
         
         
@@ -3576,6 +3577,7 @@ public class mainForm extends javax.swing.JFrame {
         btnNew.setBackground(new Color(0x333A48));
         btnClient.setBackground(new Color(0x333A48));
         btnLogin.setBackground(new Color(0x1C7900));//green
+        btnLogOut.setBackground(new Color(0x1C2434));
       
         
         pn_menu.removeAll();
@@ -3683,6 +3685,12 @@ public class mainForm extends javax.swing.JFrame {
     //method yang terjadi jika tombol logout ditekan
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         // TODO add your handling code here:
+        btnData.setBackground(new Color(0x333A48));
+        btnNew.setBackground(new Color(0x333A48));
+        btnClient.setBackground(new Color(0x333A48));
+        btnLogin.setBackground(new Color(0x1C2434));
+        btnLogOut.setBackground(new Color(0x720000));//red
+        
         btnNew.setEnabled(false);
         btnClient.setEnabled(false);
         btnData.setEnabled(false);
