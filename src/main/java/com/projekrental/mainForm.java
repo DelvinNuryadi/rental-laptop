@@ -572,18 +572,19 @@ public class mainForm extends javax.swing.JFrame {
         pn_newMenu = new javax.swing.JPanel();
         pn_addOwner = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        txtNewNamaOwner = new javax.swing.JTextField();
-        txtNewTeleponOwner = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        lblOwnerTelepon = new javax.swing.JLabel();
+        btnNewOwner = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaNewAlamatOwner = new javax.swing.JTextArea();
-        btnNewOwner = new javax.swing.JButton();
-        jLabel44 = new javax.swing.JLabel();
-        lblOwnerTelepon = new javax.swing.JLabel();
+        txtNewTeleponOwner = new javax.swing.JTextField();
+        txtNewNamaOwner = new javax.swing.JTextField();
         txtNewIdOwner = new javax.swing.JTextField();
         jLabel68 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
         pn_addLaptop = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -772,7 +773,7 @@ public class mainForm extends javax.swing.JFrame {
 
         pn_dashboard.setBackground(new java.awt.Color(28, 36, 52));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\image 2.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\Logo.png")); // NOI18N
 
         lblWelcome.setFont(new java.awt.Font("Lato", 1, 18)); // NOI18N
         lblWelcome.setForeground(new java.awt.Color(159, 222, 249));
@@ -782,7 +783,7 @@ public class mainForm extends javax.swing.JFrame {
         btnData.setBackground(new java.awt.Color(51, 58, 72));
         btnData.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnData.setForeground(new java.awt.Color(255, 255, 255));
-        btnData.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\database.png")); // NOI18N
+        btnData.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\btnData.png")); // NOI18N
         btnData.setText("DATA");
         btnData.setBorderPainted(false);
         btnData.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -798,7 +799,7 @@ public class mainForm extends javax.swing.JFrame {
         btnNew.setBackground(new java.awt.Color(51, 58, 72));
         btnNew.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNew.setForeground(new java.awt.Color(255, 255, 255));
-        btnNew.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\plus-circle.png")); // NOI18N
+        btnNew.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\btnNew.png")); // NOI18N
         btnNew.setText("NEW");
         btnNew.setBorderPainted(false);
         btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -814,7 +815,7 @@ public class mainForm extends javax.swing.JFrame {
         btnClient.setBackground(new java.awt.Color(51, 58, 72));
         btnClient.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClient.setForeground(new java.awt.Color(255, 255, 255));
-        btnClient.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\users.png")); // NOI18N
+        btnClient.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\btnClient.png")); // NOI18N
         btnClient.setText("CLIENT");
         btnClient.setBorderPainted(false);
         btnClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -919,7 +920,7 @@ public class mainForm extends javax.swing.JFrame {
         btnSignInPanel.setBackground(new java.awt.Color(107, 125, 253));
         btnSignInPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSignInPanel.setForeground(new java.awt.Color(255, 255, 255));
-        btnSignInPanel.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\sign-in 24px.png")); // NOI18N
+        btnSignInPanel.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\btnSignIN.png")); // NOI18N
         btnSignInPanel.setText("Sign In");
         btnSignInPanel.setBorderPainted(false);
         btnSignInPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -934,7 +935,7 @@ public class mainForm extends javax.swing.JFrame {
         btnSignUpPanel.setBackground(new java.awt.Color(51, 58, 72));
         btnSignUpPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSignUpPanel.setForeground(new java.awt.Color(255, 255, 255));
-        btnSignUpPanel.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\sign up-white-regular-24px.png")); // NOI18N
+        btnSignUpPanel.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\btnSignUp-white-regular-24px.png")); // NOI18N
         btnSignUpPanel.setText("Sign Up");
         btnSignUpPanel.setBorderPainted(false);
         btnSignUpPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1022,7 +1023,7 @@ public class mainForm extends javax.swing.JFrame {
         jLabel65.setForeground(new java.awt.Color(255, 255, 255));
         jLabel65.setText("SIGN IN");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\image 2.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\Logo.png")); // NOI18N
 
         lblValidasiSignIn.setForeground(new java.awt.Color(255, 51, 51));
 
@@ -1230,7 +1231,7 @@ public class mainForm extends javax.swing.JFrame {
         btnAddOwner.setBackground(new java.awt.Color(107, 125, 253));
         btnAddOwner.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAddOwner.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddOwner.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\user-plus.png")); // NOI18N
+        btnAddOwner.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\addOwner.png")); // NOI18N
         btnAddOwner.setText("add Owner");
         btnAddOwner.setBorderPainted(false);
         btnAddOwner.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1245,7 +1246,7 @@ public class mainForm extends javax.swing.JFrame {
         btnAddLaptop.setBackground(new java.awt.Color(51, 58, 72));
         btnAddLaptop.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAddLaptop.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddLaptop.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\icon\\laptop.png")); // NOI18N
+        btnAddLaptop.setIcon(new javax.swing.ImageIcon("E:\\Netbeans Project\\ProjekRental\\src\\main\\java\\image\\laptop.png")); // NOI18N
         btnAddLaptop.setText("add Laptop");
         btnAddLaptop.setBorderPainted(false);
         btnAddLaptop.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1297,27 +1298,9 @@ public class mainForm extends javax.swing.JFrame {
             .addGap(0, 18, Short.MAX_VALUE)
         );
 
-        jLabel4.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Nama");
+        jPanel2.setBackground(new java.awt.Color(28, 33, 67));
 
-        txtNewTeleponOwner.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNewTeleponOwnerKeyTyped(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Telepon");
-
-        jLabel6.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Alamat");
-
-        txaNewAlamatOwner.setColumns(20);
-        txaNewAlamatOwner.setRows(5);
-        jScrollPane1.setViewportView(txaNewAlamatOwner);
+        lblOwnerTelepon.setForeground(new java.awt.Color(255, 0, 51));
 
         btnNewOwner.setText("add");
         btnNewOwner.addActionListener(new java.awt.event.ActionListener() {
@@ -1326,11 +1309,15 @@ public class mainForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel44.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel44.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel44.setText("ADD OWNER");
+        txaNewAlamatOwner.setColumns(20);
+        txaNewAlamatOwner.setRows(5);
+        jScrollPane1.setViewportView(txaNewAlamatOwner);
 
-        lblOwnerTelepon.setForeground(new java.awt.Color(255, 0, 51));
+        txtNewTeleponOwner.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNewTeleponOwnerKeyTyped(evt);
+            }
+        });
 
         txtNewIdOwner.setEditable(false);
         txtNewIdOwner.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -1340,36 +1327,87 @@ public class mainForm extends javax.swing.JFrame {
         jLabel68.setForeground(new java.awt.Color(255, 255, 255));
         jLabel68.setText("Id Owner");
 
+        jLabel4.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Nama");
+
+        jLabel5.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Telepon");
+
+        jLabel6.setFont(new java.awt.Font("Lato Black", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Alamat");
+
+        jLabel44.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel44.setText("ADD OWNER");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel44)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel68))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNewOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtNewTeleponOwner)
+                                        .addComponent(txtNewNamaOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblOwnerTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNewIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jLabel44)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblOwnerTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel68)
+                            .addComponent(txtNewIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtNewNamaOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtNewTeleponOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnNewOwner)
+                .addContainerGap(112, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout pn_addOwnerLayout = new javax.swing.GroupLayout(pn_addOwner);
         pn_addOwner.setLayout(pn_addOwnerLayout);
         pn_addOwnerLayout.setHorizontalGroup(
             pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pn_addOwnerLayout.createSequentialGroup()
-                .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_addOwnerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel44))
-                    .addGroup(pn_addOwnerLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pn_addOwnerLayout.createSequentialGroup()
-                                .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(64, 64, 64)
-                                .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNewTeleponOwner)
-                                    .addComponent(txtNewNamaOwner)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnNewOwner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(pn_addOwnerLayout.createSequentialGroup()
-                                .addComponent(jLabel68)
-                                .addGap(53, 53, 53)
-                                .addComponent(txtNewIdOwner)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblOwnerTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pn_addOwnerLayout.setVerticalGroup(
@@ -1377,28 +1415,8 @@ public class mainForm extends javax.swing.JFrame {
             .addGroup(pn_addOwnerLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel44)
-                .addGap(18, 18, 18)
-                .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel68)
-                    .addComponent(txtNewIdOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtNewNamaOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblOwnerTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(txtNewTeleponOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(pn_addOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnNewOwner)
-                .addGap(0, 248, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 133, Short.MAX_VALUE))
         );
 
         pn_newMenu.add(pn_addOwner, "card2");
@@ -4042,6 +4060,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
