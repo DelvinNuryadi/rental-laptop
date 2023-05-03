@@ -43,6 +43,7 @@ public class mainForm extends javax.swing.JFrame {
     /**
      * Creates new form mainForm
      */
+    
     public mainForm() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
